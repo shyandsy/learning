@@ -11,7 +11,8 @@ class CatCardList extends StatelessWidget {
 
   Widget buildCatCard(BuildContext context, Cat cat) {
     return GestureDetector(
-      onTap: () => {print("selected cat" + cat.name)}, // 单击事件处理
+      onTap: () => Navigator.of(context)
+          .pushNamed('detail', arguments: cat.name), // 单击事件处理
       child: Column(
         children: <Widget>[
           seperateLine,

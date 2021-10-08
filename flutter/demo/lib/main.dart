@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:demo/pages/home.dart';
+import 'package:demo/pages/detail.dart';
+import 'package:demo/pages/about.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,9 +26,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
 
-      home: MyHomePage(title: 'Flutter Demo Home Page'), // home page
-      //home: DetailPage(name: '美短'),											// detail page
-      //home: AboutPage(),																	// about page
+      initialRoute: 'home', // 初始页面地址
+      routes: <String, WidgetBuilder>{
+        'home': (BuildContext context) =>
+            MyHomePage(title: 'Flutter Demo Home Page'),
+        'detail': (BuildContext context) => DetailPage(),
+        'about': (BuildContext context) => new AboutPage(),
+      },
     );
   }
 }
