@@ -308,6 +308,8 @@ main函数作为入口，print打印
    所有的页面放入lib/pages文件夹。homepage => lib/pages/home.dart
 
    ```dart
+   import 'package:flutter/material.dart';
+   
    // MyHomePage
    class MyHomePage extends StatefulWidget {
      MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -446,7 +448,7 @@ main函数作为入口，print打印
 
    - 创建猫数据
 
-     新建model/cat.dart, 表示猫对象
+     新建lib/model/cat.dart, 表示猫对象
 
      ```dart
      class Cat {
@@ -458,7 +460,7 @@ main函数作为入口，print打印
      }
      ```
 
-     新建store/cat.dart，管理猫数据
+     新建lib/store/cat.dart，管理猫数据
 
      ```dart
      import "package:demo/model/cat.dart";
@@ -483,7 +485,7 @@ main函数作为入口，print打印
 
      
 
-     新建store/appstate.dart，集中状态管理
+     新建lib/store/appstate.dart，集中状态管理
 
      ```dart
      import 'package:demo/store/cat.dart';
@@ -497,7 +499,7 @@ main函数作为入口，print打印
 
    - 自定义一个widget用来展示猫列表
 
-     创建widgets/cat_card_list.dart
+     创建lib/widgets/cat_card_list.dart
 
      ```dart
      import 'package:flutter/material.dart';
@@ -569,7 +571,7 @@ main函数作为入口，print打印
 
      
 
-   - 修改主页pages/home.dart展示一个列表。展示：美短，英短
+   - 修改主页lib/pages/home.dart展示一个列表。展示：美短，英短
 
      修改home page中build()方法里的body元素
 
@@ -606,7 +608,7 @@ main函数作为入口，print打印
 
      
 
-   - 增加一个详情页面，pages/detail.dart，展示具体物品的详细信息
+   - 增加一个详情页面，lib/pages/detail.dart，展示具体物品的详细信息
 
      ```dart
      import 'package:flutter/material.dart';
@@ -649,7 +651,7 @@ main函数作为入口，print打印
 
      
 
-   - 增加一个about me页面, pages/about.dart
+   - 增加一个about me页面, lib/pages/about.dart
 
      ```dart
      import 'package:flutter/material.dart';
@@ -702,9 +704,14 @@ main函数作为入口，print打印
    - 修改detail页面，去掉构造函数参数传递，改用ModalRoute从context中读取参数
 
      ```dart
+     import 'package:flutter/material.dart';
+     import 'package:demo/store/appstate.dart';
+     import 'package:demo/model/cat.dart';
+     
      class DetailPage extends StatelessWidget {
        @override
        Widget build(BuildContext context) {
+         
          //获取路由参数
          var args = ModalRoute.of(context)?.settings.arguments;
          String name = args.toString();
@@ -782,6 +789,10 @@ main函数作为入口，print打印
      lib/pages/detail.dart, 使用GestureDetector的onDoubleTap事件
 
      ```dart
+     import 'package:flutter/material.dart';
+     import 'package:demo/store/appstate.dart';
+     import 'package:demo/model/cat.dart';
+     
      class DetailPage extends StatelessWidget {
        @override
        Widget build(BuildContext context) {
@@ -874,13 +885,15 @@ main函数作为入口，print打印
        @override
        Widget build(BuildContext context) {
          return GestureDetector(
-           onLongPress: () => Navigator.of(context).pop(),		// 长按返回
+           onLongPress: () => Navigator.of(context).pop(), // 长按返回
            child: Container(
              child: Center(
                child: Column(
                  children: [
+                   Padding(padding: const EdgeInsets.all(40)),
                    Text("楚天乐",
                        style: TextStyle(fontSize: 16, color: Colors.grey[800])),
+                   Padding(padding: const EdgeInsets.all(40)),
                  ],
                ),
              ),
