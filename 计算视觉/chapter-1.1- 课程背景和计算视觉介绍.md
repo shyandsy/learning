@@ -4,6 +4,10 @@ https://www.youtube.com/watch?v=YkVckrzNpSY&list=PLFI1Cd4723_RQ6tTu-c2ZFFrMxtSIh
 
 
 
+课程课件
+
+https://github.com/CV-xueba/A01_cvclass_basic
+
 #### 概述
 
 ![alt](./images/chapter1-什么是机器视觉.png)
