@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-k8s-by-deployment
+spec:
+  replicas: 2
+  # 用来查找相关的pod，所有标签都匹配才行
+  selector:
+    matchLabels:
+      app: test-k8s-by-deployment
+  # 定义pod相关数据
+  template:
+    metadata:
+      labels:
+        app: test-k8s-by-deployment
+    spec:
+      # 定义容器，可以多个
+      containers:
+        - name: test-k8s
+          image: shyandsy/tiny_home
