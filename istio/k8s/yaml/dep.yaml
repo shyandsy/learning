@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-k8s-deployment
+spec:
+  selector:
+    matchLabels:
+      app: test-k8s
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test-k8s
+    spec:
+      containers:
+        - name: test-k8s
+          image: shyandsy/tiny_home
+          ports:
+            - containerPort: 80

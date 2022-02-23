@@ -2,6 +2,135 @@
 
 
 
+- 定义deployment
+  - 最简单的就是单个pod，没有其他东西，没有服务隔离
+  - pod是一个container的实例，deployment可以有任意数量的pod
+- 暴露services
+- 部署到k8s cluster
+
+
+
+#### 定义一个deployment
+
+```yaml
+$ vim deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+	name: test-k8s-deployment
+spec:
+	selector:
+		matchLabels:
+			app: test-k8s
+	replicas: 1
+	template:
+		metadata:
+			labels:
+				app: test-k8s
+			spec:
+				containers:
+				- name: test-k8s
+				 image: shyandsy/tiny_home
+				 ports:
+				 - containerPort: 8080
+```
+
+
+
+#### 对外暴露services
+
+```shell
+# 暴露服务，使用NodePort
+$ k expose deployment test-k8s-deployment --type=NodePort
+service/test-k8s-deployment exposed
+
+# 获得访问地址，minikube所在虚拟机可以访问
+$  minikube service test-k8s-deployment --url
+http://192.168.49.2:32729
+```
+
+
+
+#### 命令
+
+```shell
+# expose a port(tcp or udp) for a give deployment, pod, or other resource
+$ k expose deployment test-k8s-deployment --type=NodePort
+service/test-k8s-deployment exposed
+
+# forward one or more local ports to a pod
+# 把本机5000端口，转发到pod test-k8s-deployment-6b76b8fbf-cfj6d的80端口
+# 在minikube主机上使用 curl 127.0.0.1:5000即可访问 pod内的80端口
+$ k port-forward test-k8s-deployment-6b76b8fbf-cfj6d 5000:80
+Forwarding from 127.0.0.1:5000 -> 80
+Forwarding from [::1]:5000 -> 80
+Handling connection for 5000
+
+# attach to a process that is already running inside an existing container
+$ k attach test-k8s-deployment-6b76b8fbf-cfj6d
+If you don't see a command prompt, try pressing enter.                      ???
+
+# update the labels on a resource
+$ k label pods test-k8s-deployment-6b76b8fbf-cfj6d healthy=false
+
+# run a particular image on the cluster
+$ k run hazelcast --image=hazelcast --port 5701
+deployment "hazelcast" created
+```
+
+
+
+#### stateful vs stateless application
+
+再部署应用时候可以制定replicas，可以选择定义位置
+
+- Deployment
+
+- ReplicaSet
+- Bare Pods
+- Job
+- DaemonSet
+
+
+
+动态调整
+
+```shell
+$ k scale --replicas=2 deployment/test-k8s-deployment
+deployment.apps/test-k8s-deployment scaled
+
+# 现在2个pod
+$ k get pod
+NAME                                  READY   STATUS    RESTARTS   AGE
+test-k8s-deployment-6b76b8fbf-56csf   1/1     Running   0          31s
+test-k8s-deployment-6b76b8fbf-cfj6d   1/1     Running   0          37m
+
+# 可以看到有2个pod运行
+$ k get deployment
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+test-k8s-deployment   2/2     2            2           38m
+```
+
+
+
+#### 定义loadBalancer service
+
+前面我们使用expose type NodePort，现在我们试试LoadBalancer
+
+```shell
+$ k expose deployment test-k8s-deployment --type=LoadBalancer --port=80 --target-port=80 --name test-k8s-load--balancer
+
+$ k describe services test-k8s-load--balancer
+```
+
+
+
+
+
+-----------------------------
+
+
+
 #### 编写第一个yaml创建pod
 
 创建文件pod.yaml
@@ -359,6 +488,23 @@ spec:
     - port: 8080        # 本 Service 的端口
       targetPort: 80  # 容器端口
       nodePort: 30030
+      
+      
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-k8s
+  selector:
+    app: test-k8s
+spec:
+  selector:
+    app: test-k8s
+  type: NodePort
+  ports:
+    - port: 80        # 本 Service 的端口
+      targetPort: 80  # 容器端口
+      nodePort: 30000
+      protocol: TCP
 ```
 
 运行
@@ -380,3 +526,32 @@ curl: (7) Failed connect to 192.168.49.2:8080; Connection refused
 curl: (7) Failed connect to 192.168.49.2:30030; Connection refused
 [shyandsy@localhost deployment]$ curl http://192.168.49.2:8080
 curl: (7) Failed connect to 192.168.49.2:8080; Connection refused
+
+
+
+#### ClusterIp Service
+
+- 原理
+- 通过ClusterIp Service访问内部mysql pod
+
+
+
+pod： ip会变，包含一组集群多个ip
+
+pod之间服务发现，反向路由，负载均衡
+
+pod集群内可以通过cluster ip去访问其他pod
+
+
+
+#### NodePort Service
+
+- service: selector
+- pod: label
+
+
+
+#### LoadBalance Service
+
+
+

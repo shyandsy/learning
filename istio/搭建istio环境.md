@@ -106,7 +106,10 @@ $ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linu
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 $ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
-$ alias k='kubectl'
+# 设置alias
+$ sudo vim /etc/rc.local
+alias k='kubectl'
+$ sudo -s source /etc/rc.local
 ```
 
 
