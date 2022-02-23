@@ -665,3 +665,13 @@ https://github.com/bitnami/charts/tree/master/bitnami/wordpress
 
 
 
+
+
+
+
+#### 2022.02.23 python deployment
+
+- docker镜像
+  - from ： china-devops-docker-local.arf.tesla.cn/base-images/python:3.8
+- helm部署，install
+- k8s配置
