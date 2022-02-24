@@ -697,3 +697,27 @@ $ git push origin feature/quality-bi:feature/quality-bi
 - 沟通上产生的bug
 - 不明确产生的bug
 - 优化上的bug
+
+
+
+2022.08
+
+[GF3MOS-1512](https://issues.teslamotors.com/browse/GF3MOS-1512)
+
+GF3MOS-1513
+
+GF3MOS-1514
+
+GF3MOS-1515
+
+
+
+2022.10
+
+GF3MOS-1536
+
+GF3MOS-1537
+
+GF3MOS-1538
+
+GF3MOS-1539
