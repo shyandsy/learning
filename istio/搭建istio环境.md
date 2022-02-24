@@ -25,7 +25,8 @@ $ systemctl disable firewalld.service
 $ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 
 $ systemctl daemon-reload
-$ systemctl restart docker.service
+$ systemctl enable docker.service
+$ systemctl start docker.service
 
 $ sudo docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
@@ -72,27 +73,28 @@ $ minikube start
 X Exiting due to RSRC_INSUFFICIENT_CORES: Requested cpu count 2 is greater than the available cpus of 1
 
 
-# 启动成功
-$ minikube start
+# 启动成功： 使用杭州镜像
+$  minikube start --image-mirror-country cn \
+--iso-url=https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.12.1.iso \ 
+--registry-mirror=https://fgi18ddn.mirror.aliyuncs.com \ 
+--vm-driver=none
 * minikube v1.25.1 on Centos 7.9.2009
-* Automatically selected the docker driver. Other choices: none, ssh
+* Using the docker driver based on existing profile
 * Starting control plane node minikube in cluster minikube
 * Pulling base image ...
-* Downloading Kubernetes v1.23.1 preload ...
-    > preloaded-images-k8s-v16-v1...: 504.42 MiB / 504.42 MiB  100.00% 9.48 MiB
-    > index.docker.io/kicbase/sta...: 378.98 MiB / 378.98 MiB  100.00% 1.16 MiB
-! minikube was unable to download gcr.io/k8s-minikube/kicbase:v0.0.29, but successfully downloaded docker.io/kicbase/stable:v0.0.29 as a fallback image
-* Creating docker container (CPUs=2, Memory=2200MB) ...
+* Restarting existing docker container for "minikube" ...
 ! This container is having trouble accessing https://k8s.gcr.io
-* To pull new external images, you may need to configure a proxy: https://minikube.sigs.k8s.io/docs/reference/networking/proxy/
+* To pull new external images, you may need to configure a proxy: https://miniku                                    be.sigs.k8s.io/docs/reference/networking/proxy/
 * Preparing Kubernetes v1.23.1 on Docker 20.10.12 ...
   - kubelet.housekeeping-interval=5m
   - Generating certificates and keys ...
   - Booting up control plane ...
   - Configuring RBAC rules ...
 * Verifying Kubernetes components...
+  - Using image kubernetesui/metrics-scraper:v1.0.7
+  - Using image kubernetesui/dashboard:v2.3.1
   - Using image gcr.io/k8s-minikube/storage-provisioner:v5
-* Enabled addons: default-storageclass, storage-provisioner
+* Enabled addons: default-storageclass, storage-provisioner, dashboard
 * Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 
 ```
