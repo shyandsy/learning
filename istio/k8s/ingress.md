@@ -75,12 +75,17 @@ $ minikube addons list
 | volumesnapshots             | minikube | disabled     | kubernetes                     |
 |-----------------------------|----------|--------------|--------------------------------|
 
+
+
 ## 开启ingress
 $ minikube addons enable ingress
 
+
+## 
 ```
 
 
 
 开启ingress插件
 
+尼玛的，归根结底是要翻墙

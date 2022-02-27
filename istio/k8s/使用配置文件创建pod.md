@@ -17,27 +17,27 @@ $ vim deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-	name: test-k8s-deployment
+  name: test-k8s-deployment
 spec:
-	selector:
-		matchLabels:
-			app: test-k8s
-	replicas: 1
-	template:
-		metadata:
-			labels:
-				app: test-k8s
-			spec:
-				containers:
-				- name: test-k8s
-				 image: shyandsy/tiny_home
-				 ports:
-				 - containerPort: 8080
+  selector:
+    matchLabels:
+      app: test-k8s
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test-k8s
+    spec:
+      containers:
+        - name: test-k8s
+          image: shyandsy/tiny_home
+          ports:
+            - containerPort: 80
 ```
 
 
 
-#### 对外暴露services
+#### 使用kubectl expose命令对外暴露services
 
 ```shell
 # 暴露服务，使用NodePort
@@ -48,6 +48,15 @@ service/test-k8s-deployment exposed
 $  minikube service test-k8s-deployment --url
 http://192.168.49.2:32729
 ```
+
+
+
+#### 也可以使用service配置来实现
+
+```
+```
+
+
 
 
 
@@ -121,6 +130,35 @@ test-k8s-deployment   2/2     2            2           38m
 $ k expose deployment test-k8s-deployment --type=LoadBalancer --port=80 --target-port=80 --name test-k8s-load--balancer
 
 $ k describe services test-k8s-load--balancer
+```
+
+
+
+----------
+
+
+
+#### 使用ingress
+
+```shell
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - host: shyandsy.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8080
 ```
 
 

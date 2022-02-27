@@ -48,8 +48,11 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 安装minikube
 
 ```shell
+# 下载
 $ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+# 安装
+$ sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
 # 启动minikube报错， 解决：按照上一段把当前用户加入docker组，避免docker命令需要sudo即可
 $ minikube start
@@ -104,8 +107,13 @@ $  minikube start --image-mirror-country cn \
  安装kubectl
 
 ```shell
-$ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
+# 下载最新版本
+$ url -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+# 下载指定版本
+curl -LO https://dl.k8s.io/release/v1.23.0/bin/linux/amd64/kubectl
+
+# 安装
 $ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # 设置alias
@@ -113,8 +121,6 @@ $ sudo vim /etc/rc.local
 alias k='kubectl'
 $ sudo -s source /etc/rc.local
 ```
-
-
 
 
 
@@ -139,6 +145,25 @@ E0220 03:16:56.806835  129466 proxy_server.go:147] Error while proxying request:
 
 # 访问
 http://192.168.37.55:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/pod?namespace=default
+```
+
+
+
+18690400309
+
+
+
+mac系统上该用hyperkit
+
+```shell
+$ minikube start --vm-driver=hyperkit
+
+$ minikube ip
+192.168.64.2
+
+$ sudo vim /etc/hosts
+加入
+192.168.64.2 shyandsy.com
 ```
 
 

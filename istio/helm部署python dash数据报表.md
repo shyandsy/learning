@@ -189,6 +189,14 @@ $ minikube start
 
 
 
+切换本机minikube cluster
+
+```shell
+$ k config use-context minikube
+```
+
+
+
 查看pod，可以看到相关服务都已经启动
 
 ```shell
